@@ -9,7 +9,7 @@ __copyright__ = 'Copyright 2012 Ryan Leland'
 
 import httplib, urllib
 
-class Akispy(object):
+class Connection(object):
     _key     = None
     _version = None
     _conn    = None
@@ -32,14 +32,14 @@ class Akispy(object):
         Provide the URL of your site or blog you will be checking spam from.
         """
         
-        response = self._request('submit-spam', {
+        response = self._request('verify-key', {
             'blog': url,
             'key': self._key
         })
         
         if response.status is 200:
             # Read response (trimmed of whitespace)
-            return response.read().strip() is "valid"
+            return response.read().strip() == "valid"
             
         return False
         
@@ -55,7 +55,7 @@ class Akispy(object):
         
         if response.status is 200:
             # Read response (trimmed of whitespace)
-            return response.read().strip() is "true"
+            return response.read().strip() == "true"
             
         return False
         
@@ -70,7 +70,7 @@ class Akispy(object):
         response = self._request('submit-spam', params)
         
         if response.status is 200:
-            return response.read() is "true"
+            return response.read() == "true"
             
         return False
         
@@ -85,7 +85,7 @@ class Akispy(object):
         response = self._request('submit-ham', params)
         
         if response.status is 200:
-            return response.read() is "true"
+            return response.read() == "true"
             
         return False
         
