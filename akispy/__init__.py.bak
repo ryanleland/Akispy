@@ -7,7 +7,7 @@ __version__ = '0.1'
 __author__ = 'Ryan Leland'
 __copyright__ = 'Copyright 2012 Ryan Leland'
 
-import http.client, urllib.request, urllib.parse, urllib.error
+import httplib, urllib
 
 class Connection(object):
     _key     = None
@@ -24,7 +24,7 @@ class Connection(object):
         self._version = version
         
         # Get connection
-        self._conn = http.client.HTTPConnection('%s.%s' % (self._key, service_url))
+        self._conn = httplib.HTTPConnection('%s.%s' % (self._key, service_url))
         
     def verify_key(self, url):
         """For verifying your API key.
@@ -93,7 +93,7 @@ class Connection(object):
         """Builds a request object."""
         
         if method is 'POST':
-            params = urllib.parse.urlencode(params)
+            params = urllib.urlencode(params)
             headers = { "Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain" }
         
         path = '/%s/%s' % (self._version, function)
